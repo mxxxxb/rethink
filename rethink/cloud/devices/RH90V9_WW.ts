@@ -531,8 +531,9 @@ export default class Device extends AABBDevice {
         ;(this.config.components.dry_level as any).options = dryOptions
         ;(this.config.components.eco_hybrid as any).options = ecoOptions
 
-        this.selectedDryLevel = schema.defaultDryLevel
-        this.selectedEcoHybrid = schema.defaultEcoHybrid
+        // Apply defaults — only if not locked by a recent user edit
+        if (!this.isSelectorLocked('dry_level')) this.selectedDryLevel = schema.defaultDryLevel
+        if (!this.isSelectorLocked('eco_hybrid')) this.selectedEcoHybrid = schema.defaultEcoHybrid
 
         this.publishConfig()
 
@@ -594,7 +595,7 @@ export default class Device extends AABBDevice {
         const remoteStart = !!(flags15 & FLAG15_REMOTE_START)
         const antiCrease = !!(flags14 & FLAG14_ANTI_CREASE)
 
-        if (!this.isSelectorLocked('cycle') && cycle !== 0) {
+        if (!this.isSelectorLocked('cycle') && cycle > 1) {
             if (this.selectedCycle !== cycle) {
                 this.selectedCycle = cycle
                 this.updateCycleOptions(cycle)
@@ -638,13 +639,21 @@ export default class Device extends AABBDevice {
         this.publishProperty('error_message', ERRORS[errorCode] ?? `unknown (0x${errorCode.toString(16)})`)
 
         if (!this.isSelectorLocked('cycle')) {
-            const cycleName =
-                downloadedCycleId && DOWNLOADED_CYCLES[downloadedCycleId]
-                    ? DOWNLOADED_CYCLES[downloadedCycleId].label
-                    : (CYCLES[cycle] ?? `unknown (0x${cycle.toString(16)})`)
-            this.publishProperty('cycle', cycleName)
+            // Only publish base course names to the cycle selector
+            // Downloaded cycle names are not in the options list — causes HA errors
+            // The downloaded_cycle_id sensor handles SmartCourse identification
+            if (CYCLES[cycle]) {
+                this.publishProperty('cycle', CYCLES[cycle])
+            } else if (cycle > 1) {
+                console.warn(`[RH90V9] Unknown cycle ID 0x${cycle.toString(16)} — not publishing to cycle selector`)
+            }
         }
-        this.publishProperty('downloaded_cycle_id', downloadedCycleId ? `0x${downloadedCycleId.toString(16)}` : '-')
+        this.publishProperty(
+            'downloaded_cycle_id',
+            downloadedCycleId
+                ? `0x${downloadedCycleId.toString(16)} (${DOWNLOADED_CYCLES[downloadedCycleId]?.label ?? 'unknown'})`
+                : '-',
+        )
         if (!this.isSelectorLocked('dry_level')) {
             this.publishProperty('dry_level', DRY_LEVELS[this.selectedDryLevel] ?? `unknown (${this.selectedDryLevel})`)
         }
@@ -674,7 +683,10 @@ export default class Device extends AABBDevice {
         let dryLevel = this.selectedDryLevel
         let ecoHybrid = this.selectedEcoHybrid
         if (schema) {
-            if (schema.dryLevels.length > 0 && !schema.dryLevels.includes(dryLevel)) {
+            if (schema.dryLevels.length === 0) {
+                // Cycle has no dry level support — always force None
+                dryLevel = 0
+            } else if (!schema.dryLevels.includes(dryLevel)) {
                 console.warn(
                     `[RH90V9] dry_level ${DRY_LEVELS[dryLevel]} invalid for ${CYCLES[this.selectedCycle]}, using default`,
                 )
