@@ -6,8 +6,8 @@ if (process.argv.length < 9) {
         `Usage:
 	tsx packet-sender.ts mqtt-hostname[:port] device-uuid a_value s_value byte5 byte6 byte7 [t1 v1] [t2 v2] [...]
 
-	a_value, s_value - see https://github.com/anszom/rethink/wiki/CloudProtocol#packet
-	byte5, byte6, byte7 - see https://github.com/anszom/rethink/wiki/UartProtocol#framing-format
+	a_value, s_value - see https://github.com/alexw23/rethink/wiki/CloudProtocol#packet
+	byte5, byte6, byte7 - see https://github.com/alexw23/rethink/wiki/UartProtocol#framing-format
 	tX,vX - TLV attributes
 `,
     )

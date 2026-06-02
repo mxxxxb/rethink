@@ -17,7 +17,7 @@ export default class HADevice {
             },
             origin: {
                 name: 'rethink',
-                support_url: 'https://github.com/anszom/rethink',
+                support_url: 'https://github.com/alexw23/rethink',
             },
             components: {},
         }

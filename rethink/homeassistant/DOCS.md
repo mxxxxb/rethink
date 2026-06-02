@@ -22,9 +22,9 @@ compatible with Home Assistant MQTT Discovery out of the box.
 
 1. Go to the Add-on Store → Click the **More** button (⋮) in the upper-right corner → Select **Repositories**
 2. Paste the following URL:  
-   [https://github.com/anszom/rethink](https://github.com/anszom/rethink)
+   [https://github.com/alexw23/rethink](https://github.com/alexw23/rethink)
 3. Or, simply click the button below to add it automatically:
-   [![Add Repository](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fanszom%2Frethink)
+   [![Add Repository](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Falexw23%2Frethink)
 4. Start the addon and configure it via the Configuration tab:
 
 | Option             | Description                                    | Default                           |
@@ -124,6 +124,6 @@ by Home Assistant.
 
 ## Support
 
-- [GitHub](https://github.com/anszom/rethink)
-- [Wiki & full installation guide](https://github.com/anszom/rethink/wiki/Installing-rethink%E2%80%90cloud)
-- [Issues](https://github.com/anszom/rethink/issues)
+- [GitHub](https://github.com/alexw23/rethink)
+- [Wiki & full installation guide](https://github.com/alexw23/rethink/wiki/Installing-rethink%E2%80%90cloud)
+- [Issues](https://github.com/alexw23/rethink/issues)

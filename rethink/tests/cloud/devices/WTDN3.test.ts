@@ -8,7 +8,7 @@ const DEVICE_ID = 'test-id'
 const MODEL_ID = 'WTDN3'
 const META: Metadata = { modelId: MODEL_ID, modelName: 'WTDN3', swVersion: '1.0' }
 
-// Samples based on https://github.com/anszom/rethink/issues/16#issuecomment-3733925697
+// Samples based on https://github.com/alexw23/rethink/issues/16#issuecomment-3733925697
 const SAMPLE_STATE_OFF = buf('00000000000000000000000000000000000000000006006400000000')
 const SAMPLE_STATE_READY_COTTON_1200_40C = buf('01030403040100030904010000000000000003000006006400000400')
 const SAMPLE_STATE_WASH_COTTON_1200_40C_REMAIN_1H20 = buf('06011401140100030904010000000040000001040006006400000400')

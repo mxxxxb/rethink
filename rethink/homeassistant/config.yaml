@@ -5,7 +5,7 @@ description: >-
     Supports ThinQ1 and ThinQ2 devices. Includes ability to pair Wi-Fi from HAOS.
 version: 'dev'
 slug: 'rethink'
-url: 'https://github.com/anszom/rethink/wiki/Installing-rethink%E2%80%90cloud'
+url: 'https://github.com/alexw23/rethink/wiki/Installing-rethink%E2%80%90cloud'
 init: false
 
 map:
