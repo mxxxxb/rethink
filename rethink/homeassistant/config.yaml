@@ -54,4 +54,4 @@ arch:
     - aarch64
     - amd64
 
-image: 'ghcr.io/mxxxxb/rethink'
+image: 'github.com/mxxxxb/rethink'
