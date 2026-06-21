@@ -1,0 +1,55 @@
+name: Build and publish GHCR image
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU (multi-arch builds)
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Determine image tag
+        id: determine_tag
+        run: |
+          # Prefer the release tag name, fall back to GITHUB_REF (tags)
+          TAG="${{ github.event.release.tag_name || github.ref }}"
+          # If GITHUB_REF is like refs/tags/1.0.4, strip the prefix
+          TAG="${TAG#refs/tags/}"
+          # Strip a leading 'v' if present (v1.0.4 -> 1.0.4)
+          TAG="${TAG#v}"
+          echo "Determined tag: $TAG"
+          echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Build and push Docker image to GHCR
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/rethink:${{ env.IMAGE_TAG }}
+
+      - name: Output pushed image
+        run: |
+          echo "Image pushed: ghcr.io/${{ github.repository_owner }}/rethink:${{ env.IMAGE_TAG }}"
