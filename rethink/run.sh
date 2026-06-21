@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 set -e
 
+
 cd /app
 
 if [ -f /data/options.json ] && [ -n "$SUPERVISOR_TOKEN" ]; then
