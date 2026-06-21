@@ -1,4 +1,4 @@
-name: Build and publish GHCR image
+name: 1. Build and publish GHCR image
 
 on:
   release:
