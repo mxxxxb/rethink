@@ -48,8 +48,9 @@ jobs:
           VERSION="${VERSION#v}"
           sed -i "s/^version:.*/version: '$VERSION'/" rethink/homeassistant/config.yaml
 
+
       - name: Commit version to master
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' && github.ref == 'refs/heads/master'
         run: |
           git config user.name "github-actions[bot]" 
           git config user.email "github-actions[bot]@users.noreply.github.com"
